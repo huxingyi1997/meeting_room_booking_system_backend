@@ -9,12 +9,12 @@ export class EmailService {
 
   constructor(private configService: ConfigService) {
     this.transporter = createTransport({
-      host: 'smtp.sina.com',
-      port: 587,
+      host: this.configService.get<string>('NODEMAILER_HOST'),
+      port: this.configService.get<number>('NODEMAILER_PORT'),
       secure: false,
       auth: {
-        user: this.configService.get('email_user'),
-        pass: this.configService.get('email_password'),
+        user: this.configService.get<string>('EMAIL_USER'),
+        pass: this.configService.get<string>('EMAIL_PASSWORD'),
       },
     });
   }
@@ -23,7 +23,7 @@ export class EmailService {
     await this.transporter.sendMail({
       from: {
         name: 'meeting room booking system',
-        address: this.configService.get('email_user'),
+        address: this.configService.get('EMAIL_USER'),
       },
       to,
       subject,
