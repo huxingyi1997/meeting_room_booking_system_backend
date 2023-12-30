@@ -27,11 +27,10 @@ jobs:
       - name: Generate Compodoc
         run: pnpm compodoc
 
-      - name: Create gh-pages branch
-        run: |
-          git checkout --orphan gh-pages
-          git rm -rf .
-          mv documentation/* .
-          git add .
-          git commit -m "feat: gh-pages commit"
-          git push origin gh-pages -f
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2.6.0
+        with:
+          target_branch: gh-pages
+          build_dir: documentation
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
