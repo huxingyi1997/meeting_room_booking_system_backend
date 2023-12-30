@@ -24,9 +24,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build
-        run: pnpm build
-
       - name: Generate Compodoc
         run: pnpm compodoc
 
