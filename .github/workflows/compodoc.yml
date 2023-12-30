@@ -27,8 +27,11 @@ jobs:
       - name: Generate Compodoc
         run: pnpm compodoc
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+      - name: Create gh-pages branch
+        run: |
+          git checkout --orphan gh-pages
+          git rm -rf .
+          mv documentation/* .
+          git add .
+          git commit -m "feat: gh-pages commit"
+          git push origin gh-pages -f
