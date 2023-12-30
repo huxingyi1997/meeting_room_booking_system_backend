@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { UserService } from './user.service';
@@ -6,6 +14,10 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { RegisterCaptchaDto } from './dto/register-captcha.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { RequireLogin, UserInfo } from 'src/common';
+import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
+import { UpdateUserPasswordCaptchaDto } from './dto/update-user-password-captcha.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -13,6 +25,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('register')
+  @HttpCode(HttpStatus.OK)
   register(@Body() registerUser: RegisterUserDto) {
     return this.userService.register(registerUser);
   }
@@ -28,11 +41,13 @@ export class UserController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   userLogin(@Body() loginUser: LoginUserDto) {
     return this.userService.login(loginUser, false);
   }
 
   @Post('admin/login')
+  @HttpCode(HttpStatus.OK)
   adminLogin(@Body() loginUser: LoginUserDto) {
     return this.userService.login(loginUser, true);
   }
@@ -45,5 +60,37 @@ export class UserController {
   @Get('admin/refresh')
   adminRefresh(@Query() { refreshToken }: RefreshTokenDto) {
     return this.userService.refresh(refreshToken, true);
+  }
+
+  @Get('info')
+  @RequireLogin()
+  info(@UserInfo('userId') userId: number) {
+    return this.userService.getUserInfo(userId);
+  }
+
+  @Post(['update_password', 'admin/update_password'])
+  @HttpCode(HttpStatus.OK)
+  @RequireLogin()
+  updatePassword(@Body() passwordDto: UpdateUserPasswordDto) {
+    return this.userService.updatePassword(passwordDto);
+  }
+
+  @Get('update_password/captcha')
+  updatePasswordCaptcha(@Query() { address }: UpdateUserPasswordCaptchaDto) {
+    return this.userService.updatePasswordCaptcha(address);
+  }
+
+  @Post(['update', 'admin/update'])
+  @RequireLogin()
+  update(
+    @UserInfo('userId') userId: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.userService.updateUserInfo(userId, updateUserDto);
+  }
+
+  @Get('update/captcha')
+  updateCaptcha(@UserInfo('email') address: string) {
+    return this.userService.updateUserInfoCaptcha(address);
   }
 }

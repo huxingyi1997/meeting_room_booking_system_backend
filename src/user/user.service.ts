@@ -22,6 +22,9 @@ import { Permission } from './entities/permission.entity';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LoginUserVo } from './vo/login-user.vo';
 import { RefreshTokenVo } from './vo/refresh-token.vo';
+import { UserDetailVo } from './vo/user-info.vo';
+import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -296,5 +299,126 @@ export class UserService {
         return arr;
       }, []),
     };
+  }
+
+  async getUserInfo(userId: number) {
+    const user = await this.findUserDetailById(userId);
+
+    const vo = new UserDetailVo();
+    vo.id = user.id;
+    vo.email = user.email;
+    vo.username = user.username;
+    vo.headPic = user.headPic;
+    vo.phoneNumber = user.phoneNumber;
+    vo.nickName = user.nickName;
+    vo.createTime = user.createTime;
+    vo.isFrozen = user.isFrozen;
+
+    return vo;
+  }
+
+  async findUserDetailById(userId: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    return user;
+  }
+
+  async updatePassword(passwordDto: UpdateUserPasswordDto) {
+    const captcha = await this.redisService.get(
+      `update_password_captcha_${passwordDto.email}`,
+    );
+
+    if (!captcha) {
+      throw new HttpException('captcha is invalid', HttpStatus.BAD_REQUEST);
+    }
+
+    if (passwordDto.captcha !== captcha) {
+      throw new HttpException('captcha is not correct', HttpStatus.BAD_REQUEST);
+    }
+
+    const foundUser = await this.userRepository.findOneBy({
+      username: passwordDto.username,
+    });
+
+    foundUser.password = md5(passwordDto.password);
+
+    try {
+      await this.userRepository.save(foundUser);
+      return 'password update success';
+    } catch (e) {
+      this.logger.error(e, UserService);
+      return 'password update fail';
+    }
+  }
+
+  async updatePasswordCaptcha(address: string) {
+    const code = Math.random().toString().slice(2, 8);
+
+    await this.redisService.set(
+      `update_password_captcha_${address}`,
+      code,
+      10 * 60,
+    );
+
+    await this.emailService.sendMail({
+      to: address,
+      subject: 'update password captcha',
+      html: `<p>your updated password captcha is ${code}</p>`,
+    });
+    return 'send email success';
+  }
+
+  async updateUserInfo(userId: number, updateUserDto: UpdateUserDto) {
+    const captcha = await this.redisService.get(
+      `update_user_captcha_${updateUserDto.email}`,
+    );
+
+    if (!captcha) {
+      throw new HttpException('captcha is invalid', HttpStatus.BAD_REQUEST);
+    }
+
+    if (updateUserDto.captcha !== captcha) {
+      throw new HttpException('captcha is not correct', HttpStatus.BAD_REQUEST);
+    }
+
+    const foundUser = await this.userRepository.findOneBy({
+      id: userId,
+    });
+
+    if (updateUserDto.nickName) {
+      foundUser.nickName = updateUserDto.nickName;
+    }
+    if (updateUserDto.headPic) {
+      foundUser.headPic = updateUserDto.headPic;
+    }
+
+    try {
+      await this.userRepository.save(foundUser);
+      return 'user info update success';
+    } catch (e) {
+      this.logger.error(e, UserService);
+      return 'user info update fail';
+    }
+  }
+
+  async updateUserInfoCaptcha(address: string) {
+    const code = Math.random().toString().slice(2, 8);
+
+    await this.redisService.set(
+      `update_user_captcha_${address}`,
+      code,
+      10 * 60,
+    );
+
+    await this.emailService.sendMail({
+      to: address,
+      subject: 'update user info captcha',
+      html: `<p>your updated user info captcha is ${code}</p>`,
+    });
+    return 'send email success';
   }
 }

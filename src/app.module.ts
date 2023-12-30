@@ -1,9 +1,11 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
 
 import { UserModule } from './user/user.module';
+import { EmailModule } from './email/email.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,8 +13,12 @@ import { User } from './user/entities/user.entity';
 import { Role } from './user/entities/role.entity';
 import { Permission } from './user/entities/permission.entity';
 import { getConfig } from './config';
-import { LoginGuard, PermissionGuard } from './common';
-import { JwtModule } from '@nestjs/jwt';
+import {
+  FormatResponseInterceptor,
+  LoginGuard,
+  PermissionGuard,
+} from './common';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -55,7 +61,9 @@ import { JwtModule } from '@nestjs/jwt';
       },
       inject: [ConfigService],
     }),
+    EmailModule,
     UserModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [
@@ -71,6 +79,10 @@ import { JwtModule } from '@nestjs/jwt';
     {
       provide: APP_GUARD,
       useClass: PermissionGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: FormatResponseInterceptor,
     },
   ],
 })

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { EmailModule } from 'src/email/email.module';
-import { RedisModule } from 'src/redis/redis.module';
+import { EmailModule } from '../email/email.module';
+import { RedisModule } from '../redis/redis.module';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
