@@ -1,11 +1,12 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 
 import { UserModule } from './user/user.module';
 import { EmailModule } from './email/email.module';
+import { HealthModule } from './health/health.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,11 +15,13 @@ import { Role } from './user/entities/role.entity';
 import { Permission } from './user/entities/permission.entity';
 import { getConfig } from './config';
 import {
+  CustomExceptionFilter,
   FormatResponseInterceptor,
+  InvokeRecordInterceptor,
   LoginGuard,
   PermissionGuard,
+  UnloginFilter,
 } from './common';
-import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -83,6 +86,18 @@ import { HealthModule } from './health/health.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: FormatResponseInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: InvokeRecordInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: UnloginFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: CustomExceptionFilter,
     },
   ],
 })

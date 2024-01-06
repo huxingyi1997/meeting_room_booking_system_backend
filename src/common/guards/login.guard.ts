@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 
 import { RequireLoginKey } from 'src/constants';
 import { Permission } from 'src/user/entities/permission.entity';
+import { UnLoginException } from '../filters';
 
 interface JwtUserData {
   userId: number;
@@ -54,7 +55,7 @@ export class LoginGuard implements CanActivate {
     const authorization = request.headers.authorization;
 
     if (!authorization) {
-      throw new UnauthorizedException('user has not login');
+      throw new UnLoginException();
     }
 
     try {
