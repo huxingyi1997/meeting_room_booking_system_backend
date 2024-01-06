@@ -9,15 +9,17 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
+import { RequireLogin, UserInfo } from 'src/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { RegisterCaptchaDto } from './dto/register-captcha.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
-import { RequireLogin, UserInfo } from 'src/common';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdateUserPasswordCaptchaDto } from './dto/update-user-password-captcha.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { FreezeUserDto } from './dto/freeze-user.dto';
+import { UserListDto } from './dto/user-list.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -92,5 +94,17 @@ export class UserController {
   @Get('update/captcha')
   updateCaptcha(@UserInfo('email') address: string) {
     return this.userService.updateUserInfoCaptcha(address);
+  }
+
+  @RequireLogin()
+  @Get('freeze')
+  freeze(@Query() { id }: FreezeUserDto) {
+    return this.userService.freezeUserById(id);
+  }
+
+  @RequireLogin()
+  @Get('list')
+  list(userListDto: UserListDto) {
+    return this.userService.findUsers(userListDto);
   }
 }

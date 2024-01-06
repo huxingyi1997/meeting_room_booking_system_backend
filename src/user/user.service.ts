@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 import { User } from './entities/user.entity';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -25,6 +25,8 @@ import { RefreshTokenVo } from './vo/refresh-token.vo';
 import { UserDetailVo } from './vo/user-info.vo';
 import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserListVo } from './vo/user-list.vo';
+import { UserListDto } from './dto/user-list.dto';
 
 @Injectable()
 export class UserService {
@@ -420,5 +422,63 @@ export class UserService {
       html: `<p>your updated user info captcha is ${code}</p>`,
     });
     return 'send email success';
+  }
+
+  async freezeUserById(id: number) {
+    const user = await this.userRepository.findOneBy({
+      id,
+    });
+
+    user.isFrozen = true;
+
+    await this.userRepository.save(user);
+  }
+
+  async findUsers(userListDto: UserListDto) {
+    const {
+      username,
+      nickName,
+      email,
+      pageNo = 1,
+      pageSize = 2,
+    } = {
+      ...userListDto,
+    };
+
+    const skipCount = (pageNo - 1) * pageSize;
+    console.log(pageNo, pageSize, skipCount);
+    const condition: Record<string, any> = {};
+
+    if (username) {
+      condition.username = Like(`%${username}%`);
+    }
+    if (nickName) {
+      condition.nickName = Like(`%${nickName}%`);
+    }
+    if (email) {
+      condition.email = Like(`%${email}%`);
+    }
+
+    const [users, totalCount] = await this.userRepository.findAndCount({
+      select: [
+        'id',
+        'username',
+        'nickName',
+        'email',
+        'phoneNumber',
+        'isFrozen',
+        'headPic',
+        'createTime',
+      ],
+      skip: skipCount,
+      take: pageSize,
+      where: condition,
+    });
+
+    const vo = new UserListVo();
+
+    vo.users = users;
+    vo.totalCount = totalCount;
+    return vo;
   }
 }
