@@ -7,7 +7,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 
 import { RequireLogin, UserInfo } from 'src/common';
 import { ApiUnifiedOkResponse } from 'src/utils';
@@ -79,9 +79,10 @@ export class UserController {
     return this.userService.refresh(refreshToken, true);
   }
 
+  @ApiBearerAuth()
+  @RequireLogin()
   @Get('info')
   @ApiUnifiedOkResponse(UserDetailVo)
-  @RequireLogin()
   info(@UserInfo('userId') userId: number): Promise<UserDetailVo> {
     return this.userService.getUserInfo(userId);
   }
@@ -89,7 +90,6 @@ export class UserController {
   @Post(['update_password', 'admin/update_password'])
   @HttpCode(HttpStatus.OK)
   @ApiUnifiedOkResponse()
-  @RequireLogin()
   updatePassword(@Body() passwordDto: UpdateUserPasswordDto): Promise<string> {
     return this.userService.updatePassword(passwordDto);
   }
@@ -102,10 +102,11 @@ export class UserController {
     return this.userService.updatePasswordCaptcha(address);
   }
 
+  @ApiBearerAuth()
+  @RequireLogin()
   @Post(['update', 'admin/update'])
   @HttpCode(HttpStatus.OK)
   @ApiUnifiedOkResponse()
-  @RequireLogin()
   update(
     @UserInfo('userId') userId: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -119,6 +120,7 @@ export class UserController {
     return this.userService.updateUserInfoCaptcha(address);
   }
 
+  @ApiBearerAuth()
   @RequireLogin()
   @Get('freeze')
   @ApiUnifiedOkResponse()
@@ -126,6 +128,7 @@ export class UserController {
     return this.userService.freezeUserById(id);
   }
 
+  @ApiBearerAuth()
   @RequireLogin()
   @Get('list')
   @ApiUnifiedOkResponse(UserListVo)
