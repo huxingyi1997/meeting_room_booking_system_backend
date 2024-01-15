@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { EmailModule } from './email/email.module';
 import { HealthModule } from './health/health.module';
 import { FeReportModule } from './fe-report/fe-report.module';
+import { SseModule } from './sse/sse.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -69,6 +70,7 @@ import {
     UserModule,
     HealthModule,
     FeReportModule,
+    SseModule,
   ],
   controllers: [AppController],
   providers: [
