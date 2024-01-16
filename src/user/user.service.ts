@@ -346,6 +346,10 @@ export class UserService {
       username: passwordDto.username,
     });
 
+    if (foundUser.email !== passwordDto.email) {
+      throw new HttpException('email is not correct', HttpStatus.BAD_REQUEST);
+    }
+
     foundUser.password = md5(passwordDto.password);
 
     try {

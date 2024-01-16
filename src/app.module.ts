@@ -12,9 +12,6 @@ import { SseModule } from './sse/sse.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './user/entities/user.entity';
-import { Role } from './user/entities/role.entity';
-import { Permission } from './user/entities/permission.entity';
 import { getConfig } from './config';
 import {
   CustomExceptionFilter,
@@ -42,7 +39,7 @@ import {
           database: configService.get<string>('MYSQL_DATABASE'),
           synchronize: true,
           logging: true,
-          entities: [User, Role, Permission],
+          autoLoadEntities: true,
           poolSize: 10,
           connectorPackage: 'mysql2',
           extra: {

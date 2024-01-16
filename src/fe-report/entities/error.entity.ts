@@ -7,12 +7,12 @@ export class ErrorReportEntity {
   @PrimaryColumn('bigint')
   id: string;
 
-  @Column({ default: '' })
+  @Column({ type: 'text' })
   @IsString()
   @IsNotEmpty()
   error: string;
 
-  @Column({ default: '' })
+  @Column({ type: 'text' })
   @IsString()
   @IsNotEmpty()
   error_info: string;
