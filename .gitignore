@@ -42,3 +42,4 @@ documentation
 # docker files
 mysql-booking-test
 redis-booking-test
+minio-booking-test

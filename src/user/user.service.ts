@@ -12,11 +12,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Like, Repository } from 'typeorm';
 
+import { RedisService } from 'src/redis/redis.service';
+import { EmailService } from 'src/email/email.service';
+import { MinioService } from 'src/minio/minio.service';
 import { User } from './entities/user.entity';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { RedisService } from 'src/redis/redis.service';
 import { md5 } from 'src/utils';
-import { EmailService } from 'src/email/email.service';
 import { Role } from './entities/role.entity';
 import { Permission } from './entities/permission.entity';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -44,6 +45,9 @@ export class UserService {
 
     @Inject(JwtService)
     private jwtService: JwtService,
+
+    @Inject(MinioService)
+    private minioService: MinioService,
 
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -484,5 +488,23 @@ export class UserService {
     vo.users = users;
     vo.totalCount = totalCount;
     return vo;
+  }
+
+  async uploadFile(file: Express.Multer.File) {
+    const uniqueSuffix =
+      Date.now() +
+      '-' +
+      Math.round(Math.random() * 1e9) +
+      '-' +
+      file.originalname;
+
+    const bucketName = this.configService.get<string>('MINIO_BUCKET');
+    await this.minioService.uploadFile(bucketName, uniqueSuffix, file.buffer);
+
+    return `//${this.configService.get<string>(
+      'MINIO_HOST',
+    )}:${this.configService.get<string>(
+      'MINIO_PORT',
+    )}/${bucketName}/${uniqueSuffix}`;
   }
 }

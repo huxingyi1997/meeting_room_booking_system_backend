@@ -15,3 +15,18 @@ services:
       - ./redis-booking-test:/data
     ports:
       - '6379:6379'
+  minio:
+    container_name: minio
+    image: quay.io/minio/minio
+    restart: always
+    volumes:
+      - ./minio-booking-test:/data
+    environment:
+      - TZ=Asia/Shanghai
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=password
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+    command: server /data --console-address ":9090"
+

@@ -20,6 +20,7 @@ import {
   PermissionGuard,
   UnloginFilter,
 } from './common';
+import { MinioModule } from './minio/minio.module';
 
 @Module({
   imports: [
@@ -66,6 +67,7 @@ import {
     UserModule,
     HealthModule,
     FeReportModule,
+    MinioModule,
   ],
   controllers: [AppController],
   providers: [

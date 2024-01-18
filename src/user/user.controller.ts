@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -6,11 +7,22 @@ import {
   HttpStatus,
   Post,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiExcludeEndpoint,
+  ApiTags,
+} from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+
+import * as path from 'path';
 
 import { RequireLogin, UserInfo } from 'src/common';
-import { ApiUnifiedOkResponse } from 'src/utils';
+import { ApiUnifiedCreatedResponse, ApiUnifiedOkResponse } from 'src/utils';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { RegisterCaptchaDto } from './dto/register-captcha.dto';
@@ -114,6 +126,8 @@ export class UserController {
     return this.userService.updateUserInfo(userId, updateUserDto);
   }
 
+  @ApiBearerAuth()
+  @RequireLogin()
   @Get('update/captcha')
   @ApiUnifiedOkResponse()
   updateCaptcha(@UserInfo('email') address: string): Promise<string> {
@@ -134,5 +148,40 @@ export class UserController {
   @ApiUnifiedOkResponse(UserListVo)
   list(userListDto: UserListDto): Promise<UserListVo> {
     return this.userService.findUsers(userListDto);
+  }
+
+  @ApiBearerAuth()
+  @RequireLogin()
+  @Post('upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: {
+        fileSize: 1024 * 1024 * 10,
+      },
+      fileFilter(_req, file, callback) {
+        const extname = path.extname(file.originalname);
+        if (['.png', '.jpg', '.gif', 'webp'].includes(extname)) {
+          callback(null, true);
+        } else {
+          callback(new BadRequestException('Allpw upload image only'), false);
+        }
+      },
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiUnifiedCreatedResponse()
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return this.userService.uploadFile(file);
   }
 }
