@@ -67,7 +67,7 @@ export class User {
 
   @Column({
     comment: 'head pic',
-    length: 100,
+    length: 1000,
     nullable: true,
   })
   headPic: string;
