@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { EmailModule } from '../email/email.module';
 import { RedisModule } from '../redis/redis.module';
+import { MinioModule } from 'src/minio/minio.module';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { User } from './entities/user.entity';
@@ -14,6 +15,7 @@ import { Permission } from './entities/permission.entity';
     TypeOrmModule.forFeature([User, Role, Permission]),
     EmailModule,
     RedisModule,
+    MinioModule,
   ],
   controllers: [UserController],
   providers: [UserService],

@@ -7,12 +7,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './user/user.module';
 import { EmailModule } from './email/email.module';
 import { HealthModule } from './health/health.module';
+import { FeReportModule } from './fe-report/fe-report.module';
+import { SseModule } from './sse/sse.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './user/entities/user.entity';
-import { Role } from './user/entities/role.entity';
-import { Permission } from './user/entities/permission.entity';
 import { getConfig } from './config';
 import {
   CustomExceptionFilter,
@@ -22,6 +21,7 @@ import {
   PermissionGuard,
   UnloginFilter,
 } from './common';
+import { MinioModule } from './minio/minio.module';
 
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import {
           database: configService.get<string>('MYSQL_DATABASE'),
           synchronize: true,
           logging: true,
-          entities: [User, Role, Permission],
+          autoLoadEntities: true,
           poolSize: 10,
           connectorPackage: 'mysql2',
           extra: {
@@ -67,6 +67,9 @@ import {
     EmailModule,
     UserModule,
     HealthModule,
+    FeReportModule,
+    MinioModule,
+    SseModule,
   ],
   controllers: [AppController],
   providers: [

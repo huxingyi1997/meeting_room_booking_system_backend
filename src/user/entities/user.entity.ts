@@ -21,6 +21,7 @@ export class User {
   @Column({
     length: 50,
     comment: 'username',
+    unique: true,
   })
   @IsNotEmpty({
     message: 'username should not be null',
@@ -66,7 +67,7 @@ export class User {
 
   @Column({
     comment: 'head pic',
-    length: 100,
+    length: 1000,
     nullable: true,
   })
   headPic: string;
