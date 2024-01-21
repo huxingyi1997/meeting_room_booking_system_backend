@@ -146,7 +146,7 @@ export class UserController {
   @RequireLogin()
   @Get('list')
   @ApiUnifiedOkResponse(UserListVo)
-  list(@Body() userListDto: UserListDto): Promise<UserListVo> {
+  list(@Query() userListDto: UserListDto): Promise<UserListVo> {
     return this.userService.findUsers(userListDto);
   }
 

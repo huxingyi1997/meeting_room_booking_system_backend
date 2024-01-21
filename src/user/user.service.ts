@@ -443,18 +443,10 @@ export class UserService {
   }
 
   async findUsers(userListDto: UserListDto) {
-    const {
-      username,
-      nickName,
-      email,
-      pageNo = 1,
-      pageSize = 2,
-    } = {
-      ...userListDto,
-    };
+    const { username, nickName, email, pageNo = 1, pageSize = 2 } = userListDto;
 
     const skipCount = (pageNo - 1) * pageSize;
-    console.log(pageNo, pageSize, skipCount);
+
     const condition: Record<string, any> = {};
 
     if (username) {
