@@ -22,6 +22,7 @@ import {
   UnloginFilter,
 } from './common';
 import { MinioModule } from './minio/minio.module';
+import { MeetingRoomModule } from './meeting-room/meeting-room.module';
 
 @Module({
   imports: [
@@ -70,6 +71,7 @@ import { MinioModule } from './minio/minio.module';
     FeReportModule,
     MinioModule,
     SseModule,
+    MeetingRoomModule,
   ],
   controllers: [AppController],
   providers: [

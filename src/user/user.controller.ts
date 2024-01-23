@@ -10,13 +10,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiConsumes,
-  ApiExcludeEndpoint,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import * as path from 'path';
@@ -54,13 +48,6 @@ export class UserController {
   @ApiUnifiedOkResponse()
   captcha(@Query() { address }: RegisterCaptchaDto): Promise<string> {
     return this.userService.registerCaptcha(address);
-  }
-
-  @Get('init-data')
-  @ApiUnifiedOkResponse()
-  @ApiExcludeEndpoint()
-  initData(): Promise<string> {
-    return this.userService.initData();
   }
 
   @Post('login')
@@ -163,7 +150,7 @@ export class UserController {
         if (['.png', '.jpg', '.gif', 'webp'].includes(extname)) {
           callback(null, true);
         } else {
-          callback(new BadRequestException('Allpw upload image only'), false);
+          callback(new BadRequestException('Allow upload image only'), false);
         }
       },
     }),
