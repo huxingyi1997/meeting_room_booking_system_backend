@@ -2,12 +2,12 @@ import { Controller, MessageEvent, Req, Res, Sse } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Observable, fromEvent, map } from 'rxjs';
 
 import { SseService } from './sse.service';
 
-@ApiTags('sse')
+@ApiTags('SSE')
 @Controller('sse')
 export class SseController {
   constructor(
@@ -16,7 +16,10 @@ export class SseController {
   ) {}
 
   @Sse('update_record')
-  updateRecord(@Req() req, @Res() res: Response): Observable<MessageEvent> {
+  updateRecord(
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Observable<MessageEvent> {
     const address = req.socket.remoteAddress;
     const port = req.socket.remotePort;
     this.sseService.addClient(`${address}:${port}`, res, req);

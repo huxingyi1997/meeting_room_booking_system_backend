@@ -6,7 +6,7 @@ import { ErrorReportDto } from './dto/error.dto';
 import { FeReportService } from './fe-report.service';
 import { ApiUnifiedOkResponse } from '../utils';
 
-@ApiTags('fe report')
+@ApiTags('FE report')
 @Controller('fe-report')
 export class FeReportController {
   constructor(private readonly feReportService: FeReportService) {}

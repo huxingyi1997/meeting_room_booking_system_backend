@@ -6,7 +6,7 @@ import { IsInt, IsOptional } from 'class-validator';
 import { MeetingRoom } from '../entities/meeting-room.entity';
 
 export class MeetingRoomListDto extends PartialType(
-  PickType(MeetingRoom, ['name', 'description', 'equipment']),
+  PickType(MeetingRoom, ['name', 'capacity', 'equipment']),
 ) {
   @Transform(({ value }) => parseInt(value))
   @IsInt()

@@ -192,13 +192,16 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         username: loginUserDto.username,
-        isAdmin,
       },
       relations: ['roles', 'roles.permissions'],
     });
 
     if (!user) {
       throw new HttpException('user not existed', HttpStatus.BAD_REQUEST);
+    }
+
+    if (isAdmin === true && user.isAdmin === false) {
+      throw new HttpException('user is not an admin', HttpStatus.FORBIDDEN);
     }
 
     if (user.password !== md5(loginUserDto.password)) {
@@ -285,10 +288,13 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         id: userId,
-        isAdmin,
       },
       relations: ['roles', 'roles.permissions'],
     });
+
+    if (isAdmin === true && user.isAdmin === false) {
+      throw new HttpException('user is not an admin', HttpStatus.FORBIDDEN);
+    }
 
     return {
       id: user.id,

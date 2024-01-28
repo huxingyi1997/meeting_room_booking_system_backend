@@ -9,6 +9,9 @@ import { EmailModule } from './email/email.module';
 import { HealthModule } from './health/health.module';
 import { FeReportModule } from './fe-report/fe-report.module';
 import { SseModule } from './sse/sse.module';
+import { MinioModule } from './minio/minio.module';
+import { MeetingRoomModule } from './meeting-room/meeting-room.module';
+import { BookingModule } from './booking/booking.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -21,8 +24,7 @@ import {
   PermissionGuard,
   UnloginFilter,
 } from './common';
-import { MinioModule } from './minio/minio.module';
-import { MeetingRoomModule } from './meeting-room/meeting-room.module';
+import { Booking } from './booking/entities/booking.entity';
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { MeetingRoomModule } from './meeting-room/meeting-room.module';
           synchronize: true,
           logging: true,
           autoLoadEntities: true,
+          entities: [Booking],
           poolSize: 10,
           connectorPackage: 'mysql2',
           extra: {
@@ -72,6 +75,7 @@ import { MeetingRoomModule } from './meeting-room/meeting-room.module';
     MinioModule,
     SseModule,
     MeetingRoomModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [
