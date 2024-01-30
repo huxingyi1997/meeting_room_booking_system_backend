@@ -1,0 +1,640 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>meeting_room_booking_system_backend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="../" class="navbar-brand">meeting_room_booking_system_backend documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#ApiUnifiedArrayOkResponse" title="src/utils/swagger.ts" ><b>ApiUnifiedArrayOkResponse</b>&nbsp;&nbsp;&nbsp;(src/.../swagger.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiUnifiedCreatedResponse" title="src/utils/swagger.ts" ><b>ApiUnifiedCreatedResponse</b>&nbsp;&nbsp;&nbsp;(src/.../swagger.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiUnifiedOkResponse" title="src/utils/swagger.ts" ><b>ApiUnifiedOkResponse</b>&nbsp;&nbsp;&nbsp;(src/.../swagger.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#generateParseIntPipe" title="src/utils/aop.ts" ><b>generateParseIntPipe</b>&nbsp;&nbsp;&nbsp;(src/.../aop.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getApiResponseOptions" title="src/utils/swagger.ts" ><b>getApiResponseOptions</b>&nbsp;&nbsp;&nbsp;(src/.../swagger.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getConfig" title="src/config/index.ts" ><b>getConfig</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#md5" title="src/utils/md5.ts" ><b>md5</b>&nbsp;&nbsp;&nbsp;(src/.../md5.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#module" title="src/main.ts" ><b>module</b>&nbsp;&nbsp;&nbsp;(src/.../main.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RequireLogin" title="src/common/decorators/custom.decorator.ts" ><b>RequireLogin</b>&nbsp;&nbsp;&nbsp;(src/.../custom.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RequireLoginKey" title="src/constants/index.ts" ><b>RequireLoginKey</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RequirePermission" title="src/common/decorators/custom.decorator.ts" ><b>RequirePermission</b>&nbsp;&nbsp;&nbsp;(src/.../custom.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RequirePermissionKey" title="src/constants/index.ts" ><b>RequirePermissionKey</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserInfo" title="src/common/decorators/custom.decorator.ts" ><b>UserInfo</b>&nbsp;&nbsp;&nbsp;(src/.../custom.decorator.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/utils/swagger.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiUnifiedArrayOkResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiUnifiedArrayOkResponse</b></span>
+                        <a href="#ApiUnifiedArrayOkResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  model: TModel,
+) &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(model),
+    ApiOkResponse(getApiResponseOptions(model, true)),
+  );
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiUnifiedCreatedResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiUnifiedCreatedResponse</b></span>
+                        <a href="#ApiUnifiedCreatedResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  model?: TModel,
+) &#x3D;&gt; {
+  return model
+    ? applyDecorators(
+        ApiExtraModels(model),
+        ApiCreatedResponse(getApiResponseOptions(model)),
+      )
+    : applyDecorators(ApiCreatedResponse(getApiResponseOptions(model)));
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiUnifiedOkResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiUnifiedOkResponse</b></span>
+                        <a href="#ApiUnifiedOkResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  model?: TModel,
+) &#x3D;&gt; {
+  return model
+    ? applyDecorators(
+        ApiExtraModels(model),
+        ApiOkResponse(getApiResponseOptions(model)),
+      )
+    : applyDecorators(ApiOkResponse(getApiResponseOptions(model)));
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getApiResponseOptions"></a>
+                    <span class="name">
+                        <span ><b>getApiResponseOptions</b></span>
+                        <a href="#getApiResponseOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  model?: TModel,
+  isArray: boolean &#x3D; false,
+): ApiResponseOptions &#x3D;&gt; {
+  const schema &#x3D; isArray
+    ? {
+        properties: {
+          data: {
+            type: &#x27;array&#x27;,
+            items: {
+              type: &#x27;object&#x27;,
+              $ref: getSchemaPath(model),
+            },
+          },
+          error: {
+            type: &#x27;integer&#x27;,
+          },
+          error_msg: {
+            type: &#x27;string&#x27;,
+          },
+        },
+        $unifiedResRef: getSchemaPath(model) + &#x27;UnifiedRes&#x27;,
+      }
+    : model
+      ? {
+          properties: {
+            data: {
+              type: &#x27;object&#x27;,
+              $ref: getSchemaPath(model),
+            },
+            code: {
+              type: &#x27;integer&#x27;,
+            },
+            message: {
+              type: &#x27;string&#x27;,
+            },
+          },
+          $unifiedResRef: getSchemaPath(model) + &#x27;UnifiedRes&#x27;,
+        }
+      : {
+          properties: {
+            data: {
+              type: &#x27;string&#x27;,
+            },
+            code: {
+              type: &#x27;integer&#x27;,
+            },
+            message: {
+              type: &#x27;string&#x27;,
+            },
+          },
+          $unifiedResRef: &#x27;NullUnifiedRes&#x27;,
+        };
+  return {
+    schema,
+  };
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/utils/aop.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateParseIntPipe"></a>
+                    <span class="name">
+                        <span ><b>generateParseIntPipe</b></span>
+                        <a href="#generateParseIntPipe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(name: string): ParseIntPipe &#x3D;&gt; {
+  return new ParseIntPipe({
+    exceptionFactory() {
+      throw new BadRequestException(name + &#x27; should pass numbers&#x27;);
+    },
+  });
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/index.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfig"></a>
+                    <span class="name">
+                        <span ><b>getConfig</b></span>
+                        <a href="#getConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {
+  return {
+    // base config
+    NEST_SERVER_PORT: 3000,
+    API_PREFIX: &#x27;api&#x27;,
+    API_VERSION: 1,
+
+    // redis config
+    REDIS_DB: 1,
+
+    NODEMAILER_HOST: &#x27;smtp.sina.com&#x27;,
+    NODEMAILER_PORT: 587,
+
+    // jwt config
+    JWT_ACCESS_TOKEN_EXPIRES_TIME: &#x27;30m&#x27;,
+    JWT_REFRESH_TOKEN_EXPRES_TIME: &#x27;7d&#x27;,
+  };
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/utils/md5.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="md5"></a>
+                    <span class="name">
+                        <span ><b>md5</b></span>
+                        <a href="#md5"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(str: string): string &#x3D;&gt; {
+  const hash &#x3D; crypto.createHash(&#x27;md5&#x27;);
+  hash.update(str);
+  return hash.digest(&#x27;hex&#x27;);
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/main.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="module"></a>
+                    <span class="name">
+                        <span ><b>module</b></span>
+                        <a href="#module"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/custom.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RequireLogin"></a>
+                    <span class="name">
+                        <span ><b>RequireLogin</b></span>
+                        <a href="#RequireLogin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; SetMetadata(RequireLoginKey, true)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RequirePermission"></a>
+                    <span class="name">
+                        <span ><b>RequirePermission</b></span>
+                        <a href="#RequirePermission"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(...permissions: string[]) &#x3D;&gt;
+  SetMetadata(RequirePermissionKey, permissions)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserInfo"></a>
+                    <span class="name">
+                        <span ><b>UserInfo</b></span>
+                        <a href="#UserInfo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>createParamDecorator(
+  (data: string, ctx: ExecutionContext) &#x3D;&gt; {
+    const request &#x3D; ctx.switchToHttp().getRequest&lt;Request&gt;();
+
+    if (!request.user) {
+      return null;
+    }
+    return data ? request.user[data] : request.user;
+  },
+)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/constants/index.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RequireLoginKey"></a>
+                    <span class="name">
+                        <span ><b>RequireLoginKey</b></span>
+                        <a href="#RequireLoginKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;require-login&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RequirePermissionKey"></a>
+                    <span class="name">
+                        <span ><b>RequirePermissionKey</b></span>
+                        <a href="#RequirePermissionKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;require-permission&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
