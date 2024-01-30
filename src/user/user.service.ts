@@ -192,13 +192,16 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         username: loginUserDto.username,
-        isAdmin,
       },
       relations: ['roles', 'roles.permissions'],
     });
 
     if (!user) {
       throw new HttpException('user not existed', HttpStatus.BAD_REQUEST);
+    }
+
+    if (isAdmin === true && user.isAdmin === false) {
+      throw new HttpException('user is not an admin', HttpStatus.FORBIDDEN);
     }
 
     if (user.password !== md5(loginUserDto.password)) {
@@ -285,10 +288,13 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: {
         id: userId,
-        isAdmin,
       },
       relations: ['roles', 'roles.permissions'],
     });
+
+    if (isAdmin === true && user.isAdmin === false) {
+      throw new HttpException('user is not an admin', HttpStatus.FORBIDDEN);
+    }
 
     return {
       id: user.id,
@@ -443,18 +449,10 @@ export class UserService {
   }
 
   async findUsers(userListDto: UserListDto) {
-    const {
-      username,
-      nickName,
-      email,
-      pageNo = 1,
-      pageSize = 2,
-    } = {
-      ...userListDto,
-    };
+    const { username, nickName, email, pageNo = 1, pageSize = 2 } = userListDto;
 
     const skipCount = (pageNo - 1) * pageSize;
-    console.log(pageNo, pageSize, skipCount);
+
     const condition: Record<string, any> = {};
 
     if (username) {

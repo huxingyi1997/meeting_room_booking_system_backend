@@ -3,10 +3,10 @@ import { PartialType, PickType } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsInt, IsOptional } from 'class-validator';
 
-import { User } from '../entities/user.entity';
+import { MeetingRoom } from '../entities/meeting-room.entity';
 
-export class UserListDto extends PartialType(
-  PickType(User, ['email', 'username', 'nickName']),
+export class MeetingRoomListDto extends PartialType(
+  PickType(MeetingRoom, ['name', 'capacity', 'equipment']),
 ) {
   @Transform(({ value }) => parseInt(value))
   @IsInt()

@@ -7,7 +7,14 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 import { Role } from './role.entity';
 
@@ -26,6 +33,7 @@ export class User {
   @IsNotEmpty({
     message: 'username should not be null',
   })
+  @IsString()
   username: string;
 
   @Column({
@@ -38,6 +46,7 @@ export class User {
   @MinLength(6, {
     message: 'password must have min length 6',
   })
+  @IsString()
   password: string;
 
   @Column({
@@ -48,6 +57,7 @@ export class User {
   @IsNotEmpty({
     message: 'nick name should not be null',
   })
+  @IsString()
   nickName: string;
 
   @Column({
@@ -70,25 +80,31 @@ export class User {
     length: 1000,
     nullable: true,
   })
-  headPic: string;
+  @IsOptional()
+  @IsString()
+  headPic?: string;
 
   @Column({
     comment: 'phone number',
     length: 20,
     nullable: true,
   })
-  phoneNumber: string;
+  @IsOptional()
+  @IsString()
+  phoneNumber?: string;
 
   @Column({
     comment: 'is frozen',
     default: false,
   })
+  @IsBoolean()
   isFrozen: boolean;
 
   @Column({
     comment: 'is admin',
     default: false,
   })
+  @IsBoolean()
   isAdmin: boolean;
 
   @CreateDateColumn()

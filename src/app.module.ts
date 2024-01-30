@@ -9,6 +9,9 @@ import { EmailModule } from './email/email.module';
 import { HealthModule } from './health/health.module';
 import { FeReportModule } from './fe-report/fe-report.module';
 import { SseModule } from './sse/sse.module';
+import { MinioModule } from './minio/minio.module';
+import { MeetingRoomModule } from './meeting-room/meeting-room.module';
+import { BookingModule } from './booking/booking.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -21,7 +24,7 @@ import {
   PermissionGuard,
   UnloginFilter,
 } from './common';
-import { MinioModule } from './minio/minio.module';
+import { StatisticModule } from './statistic/statistic.module';
 
 @Module({
   imports: [
@@ -70,6 +73,9 @@ import { MinioModule } from './minio/minio.module';
     FeReportModule,
     MinioModule,
     SseModule,
+    MeetingRoomModule,
+    BookingModule,
+    StatisticModule,
   ],
   controllers: [AppController],
   providers: [
