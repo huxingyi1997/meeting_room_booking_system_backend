@@ -9,37 +9,57 @@ import {
 
 const getApiResponseOptions = <TModel extends Type<any>>(
   model?: TModel,
+  isArray: boolean = false,
 ): ApiResponseOptions => {
-  const schema = model
+  const schema = isArray
     ? {
         properties: {
           data: {
-            type: 'object',
-            $ref: getSchemaPath(model),
+            type: 'array',
+            items: {
+              type: 'object',
+              $ref: getSchemaPath(model),
+            },
           },
-          code: {
+          error: {
             type: 'integer',
           },
-          message: {
+          error_msg: {
             type: 'string',
           },
         },
         $unifiedResRef: getSchemaPath(model) + 'UnifiedRes',
       }
-    : {
-        properties: {
-          data: {
-            type: 'string',
+    : model
+      ? {
+          properties: {
+            data: {
+              type: 'object',
+              $ref: getSchemaPath(model),
+            },
+            code: {
+              type: 'integer',
+            },
+            message: {
+              type: 'string',
+            },
           },
-          code: {
-            type: 'integer',
+          $unifiedResRef: getSchemaPath(model) + 'UnifiedRes',
+        }
+      : {
+          properties: {
+            data: {
+              type: 'string',
+            },
+            code: {
+              type: 'integer',
+            },
+            message: {
+              type: 'string',
+            },
           },
-          message: {
-            type: 'string',
-          },
-        },
-        $unifiedResRef: 'NullUnifiedRes',
-      };
+          $unifiedResRef: 'NullUnifiedRes',
+        };
   return {
     schema,
   };
@@ -65,4 +85,13 @@ export const ApiUnifiedCreatedResponse = <TModel extends Type<any>>(
         ApiCreatedResponse(getApiResponseOptions(model)),
       )
     : applyDecorators(ApiCreatedResponse(getApiResponseOptions(model)));
+};
+
+export const ApiUnifiedArrayOkResponse = <TModel extends Type<any>>(
+  model: TModel,
+) => {
+  return applyDecorators(
+    ApiExtraModels(model),
+    ApiOkResponse(getApiResponseOptions(model, true)),
+  );
 };

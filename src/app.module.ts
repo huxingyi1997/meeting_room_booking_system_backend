@@ -25,6 +25,7 @@ import {
   UnloginFilter,
 } from './common';
 import { Booking } from './booking/entities/booking.entity';
+import { StatisticModule } from './statistic/statistic.module';
 
 @Module({
   imports: [
@@ -76,6 +77,7 @@ import { Booking } from './booking/entities/booking.entity';
     SseModule,
     MeetingRoomModule,
     BookingModule,
+    StatisticModule,
   ],
   controllers: [AppController],
   providers: [
