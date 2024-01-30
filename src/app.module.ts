@@ -24,7 +24,6 @@ import {
   PermissionGuard,
   UnloginFilter,
 } from './common';
-import { Booking } from './booking/entities/booking.entity';
 import { StatisticModule } from './statistic/statistic.module';
 
 @Module({
@@ -45,7 +44,6 @@ import { StatisticModule } from './statistic/statistic.module';
           synchronize: true,
           logging: true,
           autoLoadEntities: true,
-          entities: [Booking],
           poolSize: 10,
           connectorPackage: 'mysql2',
           extra: {
